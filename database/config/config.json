@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "Yashasva_Sharma",
+    "password": "password",
+    "database": "cms-service",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "Yashasva_Sharma",
+    "password": "password",
+    "database": "cms-service",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "Yashasva_Sharma",
+    "password": "password",
+    "database": "cms-service",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

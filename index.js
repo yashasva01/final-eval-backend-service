@@ -1,5 +1,5 @@
 const express = require('express');
-// const router = require('./src/routes/routes');
+const router = require('./src/routes/routes');
 const app = express();
 const validateToken = require('./src/middlewares/auth.token');
 const dotenv = require('dotenv');
@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 }
 );
 
-// app.use('/api', router);
+app.use('/api', router);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
