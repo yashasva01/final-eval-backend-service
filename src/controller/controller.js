@@ -1,8 +1,11 @@
+const contentService = require('../services/contentServices');
 
-function landingpage ( req, res ) {
-  res.send('This is backend api service');
+async function createContentType ( req, res ) {
+  const { name } = req.body;
+  const response = await contentService.createContentType(name); 
+  res.send(response.message).status(response.status);
 }
 
 module.exports = {
-  landingpage
+  createContentType
 };
