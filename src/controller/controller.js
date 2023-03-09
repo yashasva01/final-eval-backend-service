@@ -6,6 +6,13 @@ async function createContentType ( req, res ) {
   res.send(response.message).status(response.status);
 }
 
+async function createContentField (req, res) {
+  const { name, field } = req.body;
+  const response = await contentService.createContentField(name, field);
+  res.send(response.message).status(response.status);
+}
+
 module.exports = {
-  createContentType
+  createContentType,
+  createContentField
 };

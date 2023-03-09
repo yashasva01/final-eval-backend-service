@@ -4,4 +4,6 @@ const router = express.Router();
 
 router.post('/contentType', controller.createContentType);
 
+router.post('/contentField', controller.createContentField);
+
 module.exports = router;
