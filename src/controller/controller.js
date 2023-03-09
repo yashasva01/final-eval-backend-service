@@ -12,7 +12,27 @@ async function createContentField (req, res) {
   res.send(response.message).status(response.status);
 }
 
+async function removeContentField (req, res) {
+  const { name, field } = req.body;
+  const response = await contentService.removeContentField(name, field);
+  res.send(response.message).status(response.status);
+}
+
+async function getContentType (req, res) {
+  const response = await contentService.getContentType();
+  res.send(response.message).status(response.status);
+}
+
+async function getContentField (req, res) {
+  const { name } = req.body;
+  const response = await contentService.getContentField(name);
+  res.send(response.message).status(response.status);
+}
+
 module.exports = {
   createContentType,
-  createContentField
+  createContentField,
+  removeContentField,
+  getContentType,
+  getContentField
 };

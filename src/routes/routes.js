@@ -6,4 +6,10 @@ router.post('/contentType', controller.createContentType);
 
 router.post('/contentField', controller.createContentField);
 
+router.post('/removeContentField', controller.removeContentField);
+
+router.get('/getAllContentType', controller.getContentType);
+
+router.post('/getContentField', controller.getContentField);
+
 module.exports = router;
