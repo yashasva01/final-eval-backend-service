@@ -91,10 +91,27 @@ async function getContentField (name) {
   }
 }
 
+async function editContentTypeName (oldName, newName) {
+  if (!newName && !oldName) {
+    return { status: 400, message: 'Name is required' };
+  }
+  try{
+    const contentType = await db.contentType.findOne({ where: { typeName: oldName } });
+    if (!contentType) {
+      return { status: 400, message: 'Content type does not exists' };
+    }
+    await db.contentType.update({ typeName: newName }, { where: { typeName: oldName } });
+    return { status: 200, message: 'Content type name edited successfully' };
+  }catch(err){
+    return { status: 500, message: 'Internal server error' };
+  }
+}
+
 module.exports = {
   createContentType,
   createContentField,
   removeContentField,
   getContentType,
-  getContentField
+  getContentField,
+  editContentTypeName
 };

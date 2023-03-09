@@ -12,4 +12,6 @@ router.get('/getAllContentType', controller.getContentType);
 
 router.post('/getContentField', controller.getContentField);
 
+router.post('/editContentTypeName', controller.editContentTypeName);
+
 module.exports = router;
