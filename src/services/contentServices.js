@@ -140,6 +140,46 @@ async function addContentInstance(instanceName, contentType, instanceData){
   }
 }
 
+async function getAllInstancesOfContentType (contentType) {
+  if (!contentType) {
+    return { status: 400, message: 'Content type is required' };
+  }
+  try{
+    const content = await db.contentType.findOne({ where: { typeName: contentType } });
+    if (!content) {
+      return { status: 400, message: 'Content type does not exist' };
+    }
+    const contentInstances = await db.contentInstance.findAll({ where: { contentType: contentType } });
+    if (!contentInstances) {
+      return { status: 400, message: 'Content instances do not exist' };
+    }
+    const allContentInstances = [];
+    contentInstances.map(contentInstance => {
+      allContentInstances.push(contentInstance.dataValues);
+    });
+    console.log(allContentInstances);
+    return { status: 200, message: {message: 'Content instances retrieved successfully', data: allContentInstances} };
+  }catch(err){
+    return { status: 500, message: 'Internal server error' };
+  }
+}
+
+async function removeContentInstance(instanceName) {
+  if (!instanceName) {
+    return { status: 400, message: 'Name is required' };
+  }
+  try{
+    const contentInstance = await db.contentInstance.findOne({ where: { instanceName: instanceName } });
+    if (!contentInstance) {
+      return { status: 400, message: 'Content instance does not exist' };
+    }
+    await db.contentInstance.destroy({ where: { instanceName: instanceName } });
+    return { status: 200, message: 'Content instance removed successfully' };
+  }catch(err){
+    return { status: 500, message: 'Internal server error' };
+  }
+}
+
 module.exports = {
   createContentType,
   createContentField,
@@ -147,5 +187,7 @@ module.exports = {
   getContentType,
   getContentField,
   editContentTypeName,
-  addContentInstance
+  addContentInstance,
+  getAllInstancesOfContentType,
+  removeContentInstance
 };

@@ -40,11 +40,26 @@ async function addContentInstance (req, res) {
   const response = await contentService.addContentInstance(instanceName, contentType, instanceData);
   res.send(response.message).status(response.status);
 }
+
+async function getAllInstancesOfContentType (req, res) {
+  const { contentType } = req.body;
+  const response = await contentService.getAllInstancesOfContentType(contentType);
+  res.send(response.message).status(response.status);
+}
+
+async function removeContentInstance (req, res) {
+  const { instanceName } = req.body;
+  const response = await contentService.removeContentInstance(instanceName);
+  res.send(response.message).status(response.status);
+}
+
 module.exports = {
   createContentType,
   createContentField,
   removeContentField,
   getContentType,
   getContentField,
-  editContentTypeName,addContentInstance
+  editContentTypeName,addContentInstance,
+  getAllInstancesOfContentType,
+  removeContentInstance
 };

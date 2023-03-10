@@ -16,4 +16,8 @@ router.post('/editContentTypeName', controller.editContentTypeName);
 
 router.post('/addContentInstance', controller.addContentInstance);
 
+router.post('/getAllInstancesOfContentType', controller.getAllInstancesOfContentType);
+
+router.post('/removeContentInstance', controller.removeContentInstance);
+
 module.exports = router;
