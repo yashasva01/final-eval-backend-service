@@ -14,4 +14,6 @@ router.post('/getContentField', controller.getContentField);
 
 router.post('/editContentTypeName', controller.editContentTypeName);
 
+router.post('/addContentInstance', controller.addContentInstance);
+
 module.exports = router;

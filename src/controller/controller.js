@@ -34,11 +34,17 @@ async function editContentTypeName (req, res) {
   const response = await contentService.editContentTypeName( oldName, newName );
   res.send(response.message).status(response.status);
 }
+
+async function addContentInstance (req, res) {
+  const {instanceName, contentType, instanceData} = req.body;
+  const response = await contentService.addContentInstance(instanceName, contentType, instanceData);
+  res.send(response.message).status(response.status);
+}
 module.exports = {
   createContentType,
   createContentField,
   removeContentField,
   getContentType,
   getContentField,
-  editContentTypeName
+  editContentTypeName,addContentInstance
 };

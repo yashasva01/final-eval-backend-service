@@ -107,11 +107,45 @@ async function editContentTypeName (oldName, newName) {
   }
 }
 
+async function addContentInstance(instanceName, contentType, instanceData){
+  if(!contentType && !instanceData){
+    return { status: 400, message: 'Content type and instance data are required' };
+  }
+  try{
+    const contentInstance = await db.contentInstance.findOne({ where: { instanceName: instanceName } });
+    if (contentInstance) {
+      return { status: 400, message: 'Content instance already exists' };
+    }
+    const content = await db.contentType.findOne({ where: { typeName: contentType } });
+    if (!content) {
+      return { status: 400, message: 'Content type does not exist' };
+    }
+    const typeFields = content.dataValues.typeFields;
+    console.log('the following typefields' + typeFields);
+    const instanceFields = Object.keys(instanceData);
+    console.log('the following instancefields' + instanceFields);
+    if (typeFields.length !== instanceFields.length) {
+      return { status: 400, message: 'Content instance fields do not match content type fields' };
+    }
+    for (let i = 0; i < typeFields.length; i++) {
+      console.log(typeFields[i]);
+      if (!typeFields.includes(instanceFields[i])) {
+        return { status: 400, message: 'Content instance fields do not match content type fields' };
+      }
+    }
+    await db.contentInstance.create({ instanceName: instanceName, instanceData: instanceData, contentType: contentType });
+    return { status: 200, message: 'Content instance created successfully' };
+  }catch(err){
+    return { status: 500, message: 'Internal server error' };
+  }
+}
+
 module.exports = {
   createContentType,
   createContentField,
   removeContentField,
   getContentType,
   getContentField,
-  editContentTypeName
+  editContentTypeName,
+  addContentInstance
 };
