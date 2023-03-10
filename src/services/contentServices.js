@@ -179,6 +179,53 @@ async function removeContentInstance(instanceName) {
     return { status: 500, message: 'Internal server error' };
   }
 }
+async function editContentInstance (typeName, typeField) {
+  if(!typeName && !typeField){
+    return { status: 400, message: 'Content type and field are required' };
+  }
+  try{
+    const listOfInstances = await db.contentInstance.findAll({ where: { contentType: typeName } });
+    if (!listOfInstances) {
+      return { status: 400, message: 'Content instances do not exist' };
+    }
+    const allContentInstances = [];
+    listOfInstances.map(contentInstance => {
+      allContentInstances.push(contentInstance.dataValues);
+    }
+    );
+    let instanceFields = [];
+    for (let i = 0; i < allContentInstances.length; i++) {
+      const instanceData = { instanceName: allContentInstances[i].instanceName, ...allContentInstances[i].instanceData};
+      instanceFields = [...instanceFields, Object(instanceData)];
+    }
+    for (let i = 0; i < instanceFields.length; i++) {
+      let instanceField = instanceFields[i];
+      for(let key in instanceField){
+        if(key === typeField){
+          delete instanceField[key];
+        }
+      }
+      for (let i = 0; i < instanceFields.length; i++) {
+        let currentKey =''; 
+        const instanceField = instanceFields[i];
+        for(let key in instanceField){
+          if(key === 'instanceName'){
+            currentKey = instanceField[key];
+            delete instanceField[key];
+          }
+          if(key === typeField){
+            delete instanceField[key];
+          }
+        }
+        await db.contentInstance.update({ instanceData: instanceField }, { where: { instanceName: currentKey }});
+      }
+      return { status: 200, message: 'Content instance updated successfully' };
+    }
+  }catch(err){
+    return { status: 500, message: 'Internal server error' };
+  }
+}
+
 
 module.exports = {
   createContentType,
@@ -189,5 +236,6 @@ module.exports = {
   editContentTypeName,
   addContentInstance,
   getAllInstancesOfContentType,
-  removeContentInstance
+  removeContentInstance,
+  editContentInstance
 };

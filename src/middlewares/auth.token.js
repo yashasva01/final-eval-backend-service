@@ -2,7 +2,6 @@ const axios = require('axios');
 
 module.exports = async function (req, res, next){
   try{
-    console.log(req.headers['x-access-token']);
     const {data} = await axios.post('http://localhost:3001/api/users/validate', {} , {
       headers: {
         'x-access-token':req.headers['x-access-token']

@@ -53,6 +53,11 @@ async function removeContentInstance (req, res) {
   res.send(response.message).status(response.status);
 }
 
+async function editContentInstance (req, res) {
+  const { typeName, typeField } = req.body;
+  const response = await contentService.editContentInstance(typeName, typeField );
+  res.send(response.message).status(response.status);
+}
 module.exports = {
   createContentType,
   createContentField,
@@ -61,5 +66,6 @@ module.exports = {
   getContentField,
   editContentTypeName,addContentInstance,
   getAllInstancesOfContentType,
-  removeContentInstance
+  removeContentInstance,
+  editContentInstance
 };
