@@ -1,0 +1,13 @@
+FROM alpine:latest
+RUN apk add --update nodejs npm
+#copy  dependencies
+COPY package.json /app/package.json
+COPY package-lock.json /app/package-lock.json
+#install dependencies
+RUN cd /app; npm install
+
+#copy app
+COPY . /app
+#run app
+# CMD [ "node", "/app/index.js" ]
+ENTRYPOINT [ "node", "app/index.js" ]
